@@ -2,16 +2,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { monthNames, weekNames } from "../utils/Sanitizable";
+import { monthNames, weekNames, isYearBissexto } from "../utils/Sanitizable";
 import { chevronLeft, chevronRight } from "../assets";
 
-import "./BbCalendar.css";
+import "./SimpleCalendar.css";
 
 const now = moment().format("YYYY-MM-DD");
-
-const isYearBissexto = year => {
-  return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
-};
 
 const SimpleCalendar = ({
   dates,
@@ -63,7 +59,7 @@ const SimpleCalendar = ({
 
     const selects = getDaysOfMonthSelect();
     const auxBix = month === 1 && isYearBissexto(year) ? 1 : 0;
-    const maxDay = monthNames[month].days + auxBix;
+    const maxDay = monthNames(month).days + auxBix;
 
     const allDays = Array.from(Array(35)).map((_, i) => {
       const value = i - day + 1;
@@ -83,7 +79,7 @@ const SimpleCalendar = ({
 
   function setTitleHeader() {
     const date = months.length > 0 ? moment(months[index].first) : moment();
-    return `${monthNames[date.month()].name} ${date.year()}`;
+    return `${monthNames(date.month()).name} ${date.year()}`;
   }
 
   useEffect(() => {
@@ -124,7 +120,7 @@ const SimpleCalendar = ({
         />
       </div>
       <div className="week-names">
-        {weekNames(weekNamesType).map((item, i) => (
+        {weekNames(weekNamesType, weekNamesAbrv).map((item, i) => (
           <label key={i.toString()}>{item}</label>
         ))}
       </div>
