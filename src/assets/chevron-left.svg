@@ -1,0 +1,26 @@
+<svg width="9.999999999999998" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+ <title>Custom/chevron</title>
+ <desc>Created with Sketch.</desc>
+ <defs>
+  <polygon points="14 8 12 10 17.6666667 16 12 22.005341 14 24 21.3333333 16" id="path-1"/>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g fill-rule="evenodd" fill="none" id="Alertas">
+   <g transform="rotate(-180 5.5937466621398935,8) " id="3.4.1---Alerta-Balanço-Hídrico">
+    <g id="Custom/chevron">
+     <rect height="32" width="32" y="-8" x="-10.406253" id="bounds"/>
+     <mask transform="translate(-0.1328122466802597,0) translate(0.1328122466802597,0) translate(0.1328122466802597,0) translate(0.1328122466802597,0) translate(1.3281224966049194,0) translate(263,412) translate(-275,-420) " id="mask-2">
+      <use id="svg_1" xlink:href="#path-1"/>
+     </mask>
+     <use x="-10.406253" y="-8" xlink:href="#path-1" fill-rule="evenodd" fill="#00375A" id="🎨-Cor"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>
