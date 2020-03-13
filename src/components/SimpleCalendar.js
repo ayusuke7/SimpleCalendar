@@ -34,7 +34,6 @@ const SimpleCalendar = ({
     });
 
     setMonths(objects);
-    // setIndex(objects.length - 1);
   }
 
   /* Select days in Month Object */
@@ -82,9 +81,7 @@ const SimpleCalendar = ({
     return `${monthNames(date.month()).name} ${date.year()}`;
   }
 
-  useEffect(() => {
-    getMonthsOfArray();
-  }, []);
+  useEffect(() => getMonthsOfArray(), []);
 
   return (
     <div className="calendar-container">
@@ -126,11 +123,12 @@ const SimpleCalendar = ({
       </div>
       <div className="week-days">
         {getDaysOfMonth().map((item, i) => {
-          let css = "day ";
-          css += item.select ? "select " : "";
-          css += item.color ? item.color : "";
           return (
-            <div key={i.toString()} className={css}>
+            <div
+              key={i.toString()}
+              style={{ "--color": item.color || "#c8e6ff" }}
+              className={`day ${item.select ? "select" : ""}`}
+            >
               {!item.icon || <img src={item.icon} alt="icon" />}
               <label>{item.day}</label>
             </div>
