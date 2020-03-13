@@ -1,13 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import moment, { months, locale } from "moment";
-import {
-  monthNames,
-  weekNames,
-  monthLenght,
-  isYearBissexto
-} from "../utils/CalendarUtils";
+import moment from "moment";
+import { monthNames, weekNames, monthLenght } from "../utils/CalendarUtils";
 import { chevronLeft, chevronRight } from "../assets";
 
 import "./SimpleCalendar.css";
@@ -62,6 +57,24 @@ const SimpleCalendar = ({
     return `${monthNames(month, tranlate)} ${year}`;
   }
 
+  function onClickArrowButton() {
+    if (month < 11) {
+      const indx = month + 1;
+      const days = getDaysInEvidence();
+      setMonth(indx);
+      getDaysOfMonth();
+      return onClickNext({ days, index: indx });
+    } else if (month > 0) {
+      const indx = month - 1;
+      const days = getDaysInEvidence();
+      setMonth(indx);
+      getDaysOfMonth();
+      return onClickPrev({ days, index: indx });
+    }
+
+    return null;
+  }
+
   useEffect(() => {
     getDaysOfMonth();
   }, []);
@@ -69,37 +82,13 @@ const SimpleCalendar = ({
   return (
     <div className="calendar-container">
       <div className="header">
-        <img
-          alt="arrow left"
-          src={chevronLeft}
-          //className={"disabled"}
-          onClick={() => {
-            if (month > 0) {
-              const indx = month - 1;
-              const days = getDaysInEvidence();
-              setMonth(indx);
-              getDaysOfMonth();
-              return onClickPrev({ days, index: indx });
-            }
-            return null;
-          }}
-        />
+        <div className="btn-arrow" onClick={onClickArrowButton}>
+          {"<"}
+        </div>
         <div className="title">{setTitleHeader()}</div>
-        <img
-          alt="arrow right"
-          src={chevronRight}
-          //className={"disabled"}
-          onClick={() => {
-            if (month < 11) {
-              const indx = month + 1;
-              const days = getDaysInEvidence();
-              setMonth(indx);
-              getDaysOfMonth();
-              return onClickNext({ days, index: indx });
-            }
-            return null;
-          }}
-        />
+        <div className="btn-arrow" onClick={onClickArrowButton}>
+          {">"}
+        </div>
       </div>
       <div className="week-names">
         {weekNames(tranlate, weekNamesAbrv).map((item, i) => (
