@@ -18,7 +18,7 @@ var MONTH_NAMES = [
   { pt: "Dezembro", en: "December" }
 ];
 
-var MONTH_LENGHT = [31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31];
+var MONTH_LENGHT = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export const weekNames = (locale = "en", abrv = false) => {
   if (Boolean(abrv)) {
@@ -34,10 +34,8 @@ export const monthNames = (month = 0, locale = "en") => {
 };
 
 export const monthLenght = (month, year) => {
-  if (year && month === 1) {
-    return MONTH_LENGHT[month + 1];
-  }
-  return MONTH_LENGHT[month];
+  const isBix = year && month === 1 && isYearBissexto(year) ? 1 : 0;
+  return MONTH_LENGHT[month] + isBix;
 };
 
 export const isYearBissexto = year => {

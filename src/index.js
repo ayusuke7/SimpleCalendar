@@ -10,8 +10,12 @@ ReactDOM.render(
     dates={dates}
     tranlate={"pt"}
     weekNamesAbrv={false}
-    onClickPrev={data => {}}
-    onClickNext={data => {}}
+    onClickPrev={data => {
+      console.log(data);
+    }}
+    onClickNext={data => {
+      console.log(data);
+    }}
   />,
   document.getElementById("root")
 );
