@@ -1,24 +1,26 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { monthNames, weekNames, monthLenght } from "../utils/CalendarUtils";
 import "./SimpleCalendar.css";
 
-const now = new Date();
+var now = new Date();
+var YEAR = now.getFullYear();
+var MONTH = now.getMonth();
+var DAY = now.toJSON().substr(0, 10);
 
 class SimpleCalendar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      year: now.getFullYear(),
-      month: now.getMonth(),
+      year: YEAR,
+      month: MONTH,
       days: []
     };
   }
 
   componentDidMount() {
-    this.setDaysOfMonth(now.getMonth(), now.getFullYear());
+    this.setDaysOfMonth(MONTH, YEAR);
   }
 
   setDaysOfMonth = (month, year) => {
@@ -32,7 +34,7 @@ class SimpleCalendar extends Component {
       const value = i - dtDay + 1;
       const item = i >= dtDay && value <= maxDay ? value : "";
       const pattern = this.createPatternDate(year, month + 1, item);
-      const index = selects.indexOf(pattern);
+      const index = [DAY, ...selects].indexOf(pattern);
 
       if (item && index > -1) {
         return { day: item, ...dates[index], select: true };
