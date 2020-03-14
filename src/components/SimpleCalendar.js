@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { monthNames, weekNames, monthLenght } from "../utils/CalendarUtils";
-import { chevronLeft, chevronRight } from "../assets";
 
 import "./SimpleCalendar.css";
 
-const now = moment();
+const now = new Date();
 
 const SimpleCalendar = ({
   dates,
@@ -17,36 +15,35 @@ const SimpleCalendar = ({
   onClickPrev
 }) => {
   const [days, setDays] = useState([]);
-  const [month, setMonth] = useState(now.month());
-  const [year, setYear] = useState(now.year());
-
-  /* Select days in Month Object */
-  function getDaysSelectOfMonth() {
-    const daysIcon = dates.reduce((total, item) => {
-      const key = parseInt(item.date.split("-")[2], 10);
-      total[key] = { ...item, select: true };
-      return total;
-    }, {});
-
-    return daysIcon;
-  }
+  const [month, setMonth] = useState(now.getMonth());
+  const [year, setYear] = useState(now.getFullYear());
 
   /* Function generate calendar based of month/year */
-  function getDaysOfMonth() {
-    const dtDay = new Date(year, month - 1, 1).getDay();
-    const selects = getDaysSelectOfMonth();
+  function setDaysOfMonth() {
+    const dtDay = new Date(year, month, 1).getDay();
     const maxDay = monthLenght(month, year);
+    const selects = dates.map(dt => dt.date);
 
     const allDays = Array.from(Array(35)).map((_, i) => {
       const value = i - dtDay + 1;
       const item = i >= dtDay && value <= maxDay ? value : "";
+      const pattern = createPatternDate(year, month + 1, item);
+      const index = selects.indexOf(pattern);
 
-      if (Object.getOwnPropertyNames(selects).includes(item.toString())) {
-        return { day: item, ...selects[item] };
+      if (item && index > -1) {
+        return { day: item, ...dates[index], select: true };
       }
       return { day: item };
     });
+
     setDays(allDays);
+  }
+
+  function createPatternDate(y, m, d) {
+    let pattern = `${y}`;
+    pattern += m < 10 ? `-0${m}` : `-${m}`;
+    pattern += d < 10 ? `-0${d}` : `-${d}`;
+    return pattern;
   }
 
   function getDaysInEvidence() {
@@ -54,40 +51,49 @@ const SimpleCalendar = ({
   }
 
   function setTitleHeader() {
-    return `${monthNames(month, tranlate)} ${year}`;
+    const monthName = monthNames(month, tranlate);
+    return `${monthName} ${year}`;
   }
 
-  function onClickArrowButton() {
-    if (month < 11) {
-      const indx = month + 1;
-      const days = getDaysInEvidence();
-      setMonth(indx);
-      getDaysOfMonth();
-      return onClickNext({ days, index: indx });
-    } else if (month > 0) {
-      const indx = month - 1;
-      const days = getDaysInEvidence();
-      setMonth(indx);
-      getDaysOfMonth();
-      return onClickPrev({ days, index: indx });
+  function onClickArrowLeft() {
+    if (month > 0) {
+      const index = month - 1;
+      setMonth(index);
+      setDaysOfMonth();
+      return onClickPrev({
+        index: index,
+        days: getDaysInEvidence()
+      });
     }
+    return null;
+  }
 
+  function onClickArrowRight() {
+    if (month < 11) {
+      const index = month + 1;
+      setMonth(index);
+      setDaysOfMonth();
+      return onClickNext({
+        index: index,
+        days: getDaysInEvidence()
+      });
+    }
     return null;
   }
 
   useEffect(() => {
-    getDaysOfMonth();
+    setDaysOfMonth();
   }, []);
 
   return (
     <div className="calendar-container">
       <div className="header">
-        <div className="btn-arrow" onClick={onClickArrowButton}>
-          {"<"}
+        <div className="btn-arrow" onClick={onClickArrowLeft}>
+          &#10094;
         </div>
         <div className="title">{setTitleHeader()}</div>
-        <div className="btn-arrow" onClick={onClickArrowButton}>
-          {">"}
+        <div className="btn-arrow" onClick={onClickArrowRight}>
+          &#10095;
         </div>
       </div>
       <div className="week-names">
@@ -100,11 +106,14 @@ const SimpleCalendar = ({
           return (
             <div
               key={i.toString()}
-              style={{ "--color": item.color || "#c8e6ff" }}
               className={`day ${item.select ? "select" : ""}`}
+              style={{
+                "--bgColor": item.bgColor || "lightgrey",
+                "--fontColor": item.fontColor || "black"
+              }}
             >
-              {!item.icon || <img src={item.icon} alt="icon" />}
-              <label>{item.day}</label>
+              {item.icon}
+              {item.day}
             </div>
           );
         })}
