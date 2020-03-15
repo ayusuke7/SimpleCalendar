@@ -1,0 +1,32 @@
+.week-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 550;
+  background-color: #003863;
+  color: #fff;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0px;
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  justify-content: center;
+  align-items: center;
+}
+
+.week-days .day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  font-size: 1.2rem;
+  background-color: #f4f9fd;
+  border-top: solid 1px lightgrey;
+  border-left: solid 1px lightgrey;
+}

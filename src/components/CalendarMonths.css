@@ -1,0 +1,27 @@
+.calendar-months {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: solid 1px lightgrey;
+  border-left: solid 1px lightgrey;
+}
+
+.calendar-months .month {
+  padding: 5px;
+  height: 90px;
+
+  border-bottom: solid 1px lightgrey;
+  border-right: solid 1px lightgrey;
+}
+
+.month .number {
+  font-size: 12px;
+  float: right;
+}
+
+.month .name {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}

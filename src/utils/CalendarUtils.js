@@ -20,7 +20,7 @@ var MONTH_NAMES = [
 
 var MONTH_LENGHT = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-export const weekNames = (locale = "en", abrv = false) => {
+export const getWeekNames = (locale = "en", abrv = false) => {
   if (Boolean(abrv)) {
     return WEEK_NAMES[locale].map(i => i.charAt(0));
   }
@@ -28,16 +28,32 @@ export const weekNames = (locale = "en", abrv = false) => {
   return WEEK_NAMES[locale];
 };
 
-export const monthNames = (month = 0, locale = "en") => {
+export const getMonthName = (month = 0, locale = "en") => {
   const obj = MONTH_NAMES[month];
   return obj[locale];
 };
 
-export const monthLenght = (month, year) => {
+export const getMonthsNames = (locale = "en") => {
+  return MONTH_NAMES.map(m => m[locale]);
+};
+
+export const getMonthLenght = (month, year) => {
   const isBix = year && month === 1 && isYearBissexto(year) ? 1 : 0;
   return MONTH_LENGHT[month] + isBix;
 };
 
 export const isYearBissexto = year => {
   return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+};
+
+export const validateTypeDates = dates => {
+  const validates = [];
+  dates.forEach(dt => {
+    if (typeof dt === "string" && Date.parse(dt)) {
+      validates.push(dt);
+    } else if (typeof dt === "object") {
+      validates.push(dt.date);
+    }
+  });
+  return validates;
 };
