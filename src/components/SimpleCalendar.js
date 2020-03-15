@@ -4,7 +4,11 @@ import {
   getMonthName,
   getMonthLenght,
   getWeekNames,
-  validateTypeDates
+  parseStringToDate,
+  validateTypeDates,
+  createPatternDate,
+  parseDateToString,
+  findDateObjOrStr
 } from "../utils/CalendarUtils";
 
 import CalendarMonths from "../components/CalendarMonths";
@@ -14,35 +18,37 @@ import CalendarYears from "../components/CalendarYears";
 import "./SimpleCalendar.css";
 
 var now = new Date();
-var YEAR = now.getFullYear();
-var MONTH = now.getMonth();
-var DAYNOW = now.toJSON().substr(0, 10);
 
 class SimpleCalendar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      days: [],
-      year: YEAR,
-      month: MONTH,
       layout: 1,
-      selects: validateTypeDates(props.dates)
+      days: [],
+      year: parseStringToDate(props.initDate).getFullYear(),
+      month: parseStringToDate(props.initDate).getMonth(),
+      selects: validateTypeDates(props.dates),
+      iniDay: null,
+      maxDay: null
     };
   }
 
   componentDidMount() {
-    this.setDateInSelects(DAYNOW);
+    const { enableSelectDateNow } = this.props;
+    const dt = enableSelectDateNow ? parseDateToString(now) : null;
+    this.addOrRemoveDateInSelects(dt);
   }
 
-  setDateInSelects = date => {
+  addOrRemoveDateInSelects = date => {
     const { selects, month, year } = this.state;
     const validates = selects;
     const index = validates.indexOf(date);
 
+    /* add or remove in array selects */
     if (index > -1) {
       validates.splice(index, 1);
-    } else {
+    } else if (date) {
       validates.push(date);
     }
 
@@ -53,34 +59,30 @@ class SimpleCalendar extends Component {
 
   setDaysOfMonth = (month, year) => {
     const { selects } = this.state;
-    const dtDay = new Date(year, month, 1).getDay();
+    const initDay = new Date(year, month, 1).getDay();
     const maxDay = getMonthLenght(month, year);
 
     const days = Array.from(Array(42)).map((_, i) => {
-      const value = i - dtDay + 1;
-      const item = i >= dtDay && value <= maxDay ? value : "";
-      const pattern = this.createPatternDate(year, month + 1, item);
-      const index = selects.indexOf(pattern);
+      const value = i - initDay + 1;
+      const itemDay = i >= initDay && value <= maxDay ? value : "";
 
-      if (item && index > -1) {
-        const obj = { day: item, select: true };
-        const value = selects[index];
+      const pattern = createPatternDate(year, month + 1, itemDay);
+      const indexOf = findDateObjOrStr(selects, pattern);
+
+      if (itemDay && indexOf > -1) {
+        const obj = { day: itemDay, select: true };
+        const value = selects[indexOf];
+
         if (typeof value === "string") {
           return { ...obj, date: value };
         }
         return { ...obj, ...value };
       }
-      return { day: item };
+
+      return { day: itemDay };
     });
 
-    this.setState({ month, days, year });
-  };
-
-  createPatternDate = (y, m, d) => {
-    let pattern = `${y}`;
-    pattern += m < 10 ? `-0${m}` : `-${m}`;
-    pattern += d < 10 ? `-0${d}` : `-${d}`;
-    return pattern;
+    this.setState({ month, days, year, initDay, maxDay });
   };
 
   onClickArrowLeft = () => {
@@ -136,16 +138,15 @@ class SimpleCalendar extends Component {
 
     if (item.day && enableSelectDays) {
       const obj = this.createObjRetorno(year, month, item.day);
-      this.setDateInSelects(obj.date);
+      this.addOrRemoveDateInSelects(obj.date);
       return onClickDay(obj);
     }
 
     return null;
   };
 
-  onChangeLayout = index => {
-    const { layout } = this.state;
-    this.setState({ layout: index });
+  onChangeLayout = layout => {
+    this.setState({ layout });
   };
 
   createObjRetorno = (year, month, day) => {
@@ -153,7 +154,7 @@ class SimpleCalendar extends Component {
     const { locale } = this.props;
     const days = getMonthLenght(month, year);
     const wkname = getMonthName(month, locale);
-    const date = this.createPatternDate(year, month + 1, day);
+    const date = createPatternDate(year, month + 1, day);
 
     return {
       date: date || "",
@@ -165,8 +166,7 @@ class SimpleCalendar extends Component {
     };
   };
 
-  /* Renders */
-  renderWeekNames = () => {
+  getWeekNamesOrCustom = () => {
     const { locale, weekNamesAbrv, customWeekNames } = this.props;
     return customWeekNames.length === 7
       ? customWeekNames
@@ -175,7 +175,7 @@ class SimpleCalendar extends Component {
 
   render() {
     const { locale } = this.props;
-    const { days, layout, month, year } = this.state;
+    const { days, layout, month, year, initDay, maxDay } = this.state;
 
     return (
       <div className="calendar-container">
@@ -197,7 +197,9 @@ class SimpleCalendar extends Component {
         {layout === 1 ? (
           <CalendarDays
             days={days}
-            weekNames={this.renderWeekNames()}
+            initDay={initDay}
+            maxDay={maxDay}
+            weekNames={this.getWeekNamesOrCustom()}
             onClickItemDay={this.onClickItemDay}
           />
         ) : layout === 2 ? (
@@ -226,7 +228,9 @@ class SimpleCalendar extends Component {
 SimpleCalendar.propTypes = {
   dates: PropTypes.array,
   locale: PropTypes.string,
+  initDate: PropTypes.string,
   enableSelectDays: PropTypes.bool,
+  enableSelectDateNow: PropTypes.bool,
   customWeekNames: PropTypes.array,
   weekNamesAbrv: PropTypes.bool,
   onClickNext: PropTypes.func,
@@ -237,9 +241,11 @@ SimpleCalendar.propTypes = {
 SimpleCalendar.defaultProps = {
   dates: [],
   locale: "en",
+  initDate: "",
   customWeekNames: [],
   weekNamesAbrv: false,
   enableSelectDays: false,
+  enableSelectDateNow: true,
   onClickPrev: () => null,
   onClickNext: () => null,
   onClickDay: () => null

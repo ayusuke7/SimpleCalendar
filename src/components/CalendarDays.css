@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 
-  margin-bottom: 5px;
   font-size: 1.2rem;
   font-weight: 550;
   background-color: #003863;
@@ -15,19 +14,40 @@
 .week-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-
+  border-right: solid 1px #9c9797;
   justify-content: center;
   align-items: center;
 }
 
 .week-days .day {
   display: flex;
+  height: 45px;
   justify-content: center;
   align-items: center;
-  height: 45px;
-  font-size: 1.2rem;
-  background-color: #f4f9fd;
-  border-top: solid 1px lightgrey;
-  border-left: solid 1px lightgrey;
   cursor: pointer;
+  border-bottom: solid 1px #9c9797;
+  border-left: solid 1px #9c9797;
+}
+
+.select {
+  font-weight: 600;
+  background-color: var(--bgColor);
+}
+
+.day.next {
+  background-color: #f2f2f2;
+}
+
+.day.next .number {
+  color: grey;
+}
+
+.day .number {
+  color: var(--fontColor);
+  font-size: var(--fontSize);
+}
+
+.day .icon {
+  color: var(--iconColor);
+  font-size: var(--iconSize);
 }

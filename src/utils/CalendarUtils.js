@@ -46,14 +46,49 @@ export const isYearBissexto = year => {
   return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
 };
 
+export const validateTypeDate = date => {
+  const value = typeof date === "object" ? date.date : date;
+  if (!Date.parse(value)) {
+    console.error(`SimpleCalendar: (${value}) inválid Date`);
+    return null;
+  }
+  return date;
+};
+
 export const validateTypeDates = dates => {
   const validates = [];
   dates.forEach(dt => {
-    if (typeof dt === "string" && Date.parse(dt)) {
-      validates.push(dt);
-    } else if (typeof dt === "object") {
-      validates.push(dt.date);
+    const isDate = validateTypeDate(dt);
+    if (isDate) {
+      validates.push(isDate);
     }
   });
   return validates;
+};
+
+export const createPatternDate = (y, m, d) => {
+  let pattern = `${y}`;
+  pattern += m < 10 ? `-0${m}` : `-${m}`;
+  pattern += d < 10 ? `-0${d}` : `-${d}`;
+  return pattern;
+};
+
+export const parseDateToString = date => {
+  return date
+    ? createPatternDate(date.getFullYear(), date.getMonth(), date.getDate())
+    : "";
+};
+
+export const parseStringToDate = date => {
+  return date ? new Date(date) : new Date();
+};
+
+export const findDateObjOrStr = (arr, target) => {
+  return arr.findIndex(i => {
+    if (typeof i === "object") {
+      return target === i.date;
+    } else {
+      return target === i;
+    }
+  });
 };

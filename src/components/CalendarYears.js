@@ -7,7 +7,7 @@ const CalendarYears = ({ year, onChangeYear }) => {
       {Array.from(Array(12)).map((item, index) => (
         <div
           key={index.toString()}
-          className={`year ${index === year ? "active" : ""}`}
+          className="year"
           onClick={() => onChangeYear(year + index)}
         >
           <div className="name">{year + index}</div>

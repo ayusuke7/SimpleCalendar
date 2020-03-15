@@ -1,19 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SimpleCalendar from "./components/SimpleCalendar";
+import { getAll } from "./utils/Symbols";
 
-const dates = ["2020-03-01"];
+const dates = () => {
+  return getAll().map((s, i) =>
+    Object({
+      date: `2020-03-0${i + 1}`,
+      icon: s,
+      iconSize: "20px"
+    })
+  );
+};
 
 ReactDOM.render(
   <SimpleCalendar
-    dates={dates}
-    locale="pt"
+    //locale="pt"
+    dates={dates()}
+    //initDate={"2020-12-31"}
     //weekNamesAbrv
-    enableSelectDays
+    //enableSelectDays
+    //enableSelectDateNow
     //customWeekNames={["A", "B", "C", "D", "E", "F", "G"]}
-    onClickPrev={data => console.log(data)}
-    onClickNext={data => console.log(data)}
-    onClickDay={data => console.log(data)}
+    //onClickPrev={data => console.log(data)}
+    //onClickNext={data => console.log(data)}
+    //onClickDay={data => console.log(data)}
   />,
   document.getElementById("root")
 );

@@ -46,17 +46,6 @@
   opacity: 0.15 !important;
 }
 
-.select {
-  font-weight: 600;
-  background-color: var(--bgColor) !important;
-  color: var(--fontColor) !important;
-}
-
-.active {
-  background-color: lightgray;
-  border: solid 1px #003863 !important;
-}
-
 .separate {
   width: 20px;
 }

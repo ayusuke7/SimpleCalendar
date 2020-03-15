@@ -1,7 +1,7 @@
 import React from "react";
 import "./CalendarDays.css";
 
-const CalendarDays = ({ days, weekNames, onClickItemDay }) => {
+const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
   return (
     <>
       <div className="week-names">
@@ -11,18 +11,28 @@ const CalendarDays = ({ days, weekNames, onClickItemDay }) => {
       </div>
       <div className="week-days">
         {days.map((item, i) => {
+          let aux = i - initDay;
+          let auxNext = aux >= maxDay ? aux - maxDay + 1 : "";
+
+          let css = "day";
+          css += item.select ? " select" : "";
+          css += auxNext ? " next" : "";
+
           return (
             <div
               key={i.toString()}
-              className={`day ${item.select ? "select" : ""}`}
+              className={css}
               style={{
                 "--bgColor": item.bgColor || "lightgrey",
-                "--fontColor": item.fontColor || "black"
+                "--fontColor": item.fontColor || "black",
+                "--iconColor": item.iconColor || "black",
+                "--fontSize": item.fontSize || "18px",
+                "--iconSize": item.iconSize || "18px"
               }}
               onClick={() => onClickItemDay(item)}
             >
-              {item.icon}
-              {item.day}
+              <div className="icon">{item.icon}</div>
+              <div className="number">{item.day || auxNext}</div>
             </div>
           );
         })}
