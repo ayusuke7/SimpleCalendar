@@ -17,6 +17,7 @@ const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
           let css = "day";
           css += item.select ? " select" : "";
           css += auxNext ? " next" : "";
+          css += i < initDay ? " prev" : "";
 
           return (
             <div

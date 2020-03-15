@@ -13,6 +13,10 @@
   border-right: solid 1px lightgrey;
 }
 
+.year:hover {
+  background-color: lightgrey;
+}
+
 .year .name {
   text-align: center;
   margin-top: 40px;

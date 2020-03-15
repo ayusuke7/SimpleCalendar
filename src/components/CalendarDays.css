@@ -29,12 +29,19 @@
   border-left: solid 1px #9c9797;
 }
 
+.day:hover {
+  background-color: lightgrey;
+}
+
 .select {
   font-weight: 600;
   background-color: var(--bgColor);
 }
 
 .day.next {
+  background-color: #f2f2f2;
+}
+.day.prev {
   background-color: #f2f2f2;
 }
 

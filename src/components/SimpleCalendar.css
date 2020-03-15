@@ -28,6 +28,10 @@
   color: #003863;
 }
 
+.header .title label:hover {
+  color: #ccc;
+}
+
 .header .btn-arrow {
   padding: 6px 5px 3px 5px;
   width: 20px;
@@ -47,5 +51,5 @@
 }
 
 .separate {
-  width: 20px;
+  width: 15px;
 }
