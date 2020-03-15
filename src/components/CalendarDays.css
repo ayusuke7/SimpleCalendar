@@ -29,4 +29,5 @@
   background-color: #f4f9fd;
   border-top: solid 1px lightgrey;
   border-left: solid 1px lightgrey;
+  cursor: pointer;
 }

@@ -9,6 +9,7 @@ import {
 
 import CalendarMonths from "../components/CalendarMonths";
 import CalendarDays from "../components/CalendarDays";
+import CalendarYears from "../components/CalendarYears";
 
 import "./SimpleCalendar.css";
 
@@ -83,8 +84,13 @@ class SimpleCalendar extends Component {
   };
 
   onClickArrowLeft = () => {
-    const { month, year } = this.state;
+    const { month, year, layout } = this.state;
     const { onClickPrev } = this.props;
+
+    if (layout === 3) {
+      this.setState({ year: year - 11 });
+      return null;
+    }
 
     let tmpMonth = month;
     let tmpYear = year;
@@ -102,8 +108,13 @@ class SimpleCalendar extends Component {
   };
 
   onClickArrowRight = () => {
-    const { month, year } = this.state;
+    const { month, year, layout } = this.state;
     const { onClickNext } = this.props;
+
+    if (layout === 3) {
+      this.setState({ year: year + 11 });
+      return null;
+    }
 
     let tmpMonth = month;
     let tmpYear = year;
@@ -120,17 +131,21 @@ class SimpleCalendar extends Component {
   };
 
   onClickItemDay = item => {
-    if (!item.day) return null;
+    const { onClickDay, enableSelectDays } = this.props;
     const { month, year } = this.state;
-    const { onClickDay } = this.props;
-    const obj = this.createObjRetorno(year, month, item.day);
-    this.setDateInSelects(obj.date);
-    return onClickDay(obj);
+
+    if (item.day && enableSelectDays) {
+      const obj = this.createObjRetorno(year, month, item.day);
+      this.setDateInSelects(obj.date);
+      return onClickDay(obj);
+    }
+
+    return null;
   };
 
-  onChangeLayout = e => {
+  onChangeLayout = index => {
     const { layout } = this.state;
-    this.setState({ layout: layout === 0 ? 1 : 0 });
+    this.setState({ layout: index });
   };
 
   createObjRetorno = (year, month, day) => {
@@ -169,11 +184,11 @@ class SimpleCalendar extends Component {
             &#10094;
           </div>
           <div className="title">
-            <div onClick={this.onChangeLayout}>
+            <div onClick={() => this.onChangeLayout(2)}>
               {getMonthName(month, locale)}
             </div>
             <div className="separate" />
-            <div>{year}</div>
+            <div onClick={() => this.onChangeLayout(3)}>{year}</div>
           </div>
           <div className="btn-arrow" onClick={this.onClickArrowRight}>
             &#10095;
@@ -185,12 +200,20 @@ class SimpleCalendar extends Component {
             weekNames={this.renderWeekNames()}
             onClickItemDay={this.onClickItemDay}
           />
-        ) : (
+        ) : layout === 2 ? (
           <CalendarMonths
             locale={locale}
             month={month}
             onChangeMonth={index => {
               this.setDaysOfMonth(index, year);
+              this.setState({ layout: 1 });
+            }}
+          />
+        ) : (
+          <CalendarYears
+            year={year}
+            onChangeYear={index => {
+              this.setDaysOfMonth(month, index);
               this.setState({ layout: 1 });
             }}
           />
@@ -203,6 +226,7 @@ class SimpleCalendar extends Component {
 SimpleCalendar.propTypes = {
   dates: PropTypes.array,
   locale: PropTypes.string,
+  enableSelectDays: PropTypes.bool,
   customWeekNames: PropTypes.array,
   weekNamesAbrv: PropTypes.bool,
   onClickNext: PropTypes.func,
@@ -215,6 +239,7 @@ SimpleCalendar.defaultProps = {
   locale: "en",
   customWeekNames: [],
   weekNamesAbrv: false,
+  enableSelectDays: false,
   onClickPrev: () => null,
   onClickNext: () => null,
   onClickDay: () => null

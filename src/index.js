@@ -8,6 +8,9 @@ ReactDOM.render(
   <SimpleCalendar
     dates={dates}
     locale="pt"
+    //weekNamesAbrv
+    enableSelectDays
+    //customWeekNames={["A", "B", "C", "D", "E", "F", "G"]}
     onClickPrev={data => console.log(data)}
     onClickNext={data => console.log(data)}
     onClickDay={data => console.log(data)}
