@@ -2,7 +2,7 @@
 
 SimpleCalendar, biblioteca simples de calendario para sua aplicação Web React/JS.
 
-# Funcionaliades!
+## Funcionalidades!
 
   - Seleção de dias, mese e anos
   - Selecione ranges de datas
@@ -11,7 +11,7 @@ SimpleCalendar, biblioteca simples de calendario para sua aplicação Web React/
   - Symbolos HTML Code nos dias
   - Customização styles (Background, Font)
 
-# Instalação
+## Instalação
 
 instação utilizando npm ou yarn
 ```sh
@@ -20,12 +20,12 @@ or
 $ npm install simple-calendar
 ```
 
-# Importação:
+## Importação:
 
   ```js
   import SimpleCalendar from "SimpleCalendar"; 
   ```
-# Uso
+## Uso
 ```js
 import React, { Component } from 'react';
 import SimpleCalendar from 'simple-calendar';
@@ -61,11 +61,11 @@ class MyApp extends Component {
  }
 ```
 
-# Importação Symbols
+## Importação Symbols
 ```js
 import Symbols, { getAll } from '@SimpleCalendar/utils/Symbols';
 ```
-# Uso dos Symbolos <HTML Code />
+## Uso dos Symbolos <HTML Code />
 
 Para a utilização dos Symbolos HTML Code é preciso montar um objeto para as datas nas quais sera apresentado o symbolo.
 
@@ -78,7 +78,7 @@ const dates = [
 ```
 [HTML Codes W3Schools](https://www.w3schools.com/html/html_symbols.asp)
 
-# Props
+## Props
 
 |         Nome        	|                                    Descrição                                    	|    Padrão    	|   Tipo   	| Required 	| Retorno 	|
 |:-------------------:	|:-------------------------------------------------------------------------------:	|:------------:	|:--------:	|:--------:	|:-------:	|
