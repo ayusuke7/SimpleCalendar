@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SimpleCalendar from "./components/SimpleCalendar";
-import { getAll } from "./utils/Symbols";
+import Symbols, { getAll } from "./utils/Symbols";
 
 const dates = () => {
   return getAll().map((s, i) =>
@@ -19,12 +19,12 @@ ReactDOM.render(
     dates={dates()}
     //initDate={"2020-12-31"}
     //weekNamesAbrv
-    //enableSelectDays
+    enableSelectDays
     //enableSelectDateNow
     //customWeekNames={["A", "B", "C", "D", "E", "F", "G"]}
-    //onClickPrev={data => console.log(data)}
-    //onClickNext={data => console.log(data)}
-    //onClickDay={data => console.log(data)}
+    onClickPrev={data => console.log(data)}
+    onClickNext={data => console.log(data)}
+    onClickDay={data => console.log(data)}
   />,
   document.getElementById("root")
 );

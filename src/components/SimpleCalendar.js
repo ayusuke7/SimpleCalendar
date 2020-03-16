@@ -240,7 +240,7 @@ SimpleCalendar.propTypes = {
 
 SimpleCalendar.defaultProps = {
   dates: [],
-  locale: "en",
+  locale: "pt",
   initDate: "",
   customWeekNames: [],
   weekNamesAbrv: false,
