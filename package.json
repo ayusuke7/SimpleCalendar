@@ -1,7 +1,22 @@
 {
   "name": "simple-calendar",
   "version": "0.1.0",
-  "private": true,
+  "description": "Calanderio Simples para visualização de datas",
+  "readmeFilename": "README.md",
+  "keywords": [
+    "calendar",
+    "range",
+    "dates"
+  ],
+  "author": {
+    "name": "Alexandre H",
+    "email": "alexhcb.7392@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://https://github.com/ayusuke7/SimpleCalendar"
+  },
+  "main": "index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -31,5 +46,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "license": "MIT"
 }
