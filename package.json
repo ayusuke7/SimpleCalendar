@@ -1,7 +1,7 @@
 {
   "name": "simple-calendar",
-  "version": "0.1.0",
-  "description": "Calanderio Simples para visualização de datas",
+  "version": "1.0.0",
+  "description": "Calendário Simples para visualização de datas",
   "readmeFilename": "README.md",
   "keywords": [
     "calendar",
