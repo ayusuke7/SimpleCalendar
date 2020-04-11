@@ -1,7 +1,7 @@
 import React from "react";
 import "./CalendarYears.css";
 
-const CalendarYears = ({ year, onChangeYear }) => {
+export default function CalendarYears({ year, onChangeYear }) {
   return (
     <div className="calendar-years">
       {Array.from(Array(12)).map((item, index) => (
@@ -15,6 +15,4 @@ const CalendarYears = ({ year, onChangeYear }) => {
       ))}
     </div>
   );
-};
-
-export default CalendarYears;
+}

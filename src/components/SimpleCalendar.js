@@ -8,12 +8,13 @@ import {
   validateTypeDates,
   createPatternDate,
   parseDateToString,
-  findDateObjOrStr
+  findDateObjOrStr,
 } from "../utils/CalendarUtils";
 
 import CalendarMonths from "../components/CalendarMonths";
 import CalendarDays from "../components/CalendarDays";
 import CalendarYears from "../components/CalendarYears";
+import ClockDigital from "../components/ClockDigital";
 
 import "./SimpleCalendar.css";
 
@@ -24,13 +25,13 @@ class SimpleCalendar extends Component {
     super(props);
 
     this.state = {
-      layout: 1,
-      days: [],
-      year: parseStringToDate(props.initDate).getFullYear(),
-      month: parseStringToDate(props.initDate).getMonth(),
+      year: parseStringToDate(props.initDate).getUTCFullYear(),
+      month: parseStringToDate(props.initDate).getUTCMonth(),
       selects: validateTypeDates(props.dates),
+      days: [],
+      layout: 1,
       iniDay: null,
-      maxDay: null
+      maxDay: null,
     };
   }
 
@@ -40,7 +41,7 @@ class SimpleCalendar extends Component {
     this.addOrRemoveDateInSelects(dt);
   }
 
-  addOrRemoveDateInSelects = date => {
+  addOrRemoveDateInSelects = (date) => {
     const { selects, month, year } = this.state;
     const validates = selects;
     const index = validates.indexOf(date);
@@ -59,7 +60,7 @@ class SimpleCalendar extends Component {
 
   setDaysOfMonth = (month, year) => {
     const { selects } = this.state;
-    const initDay = new Date(year, month, 1).getDay();
+    const initDay = new Date(year, month, 1).getUTCDay();
     const maxDay = getMonthLenght(month, year);
 
     const days = Array.from(Array(42)).map((_, i) => {
@@ -132,7 +133,7 @@ class SimpleCalendar extends Component {
     return onClickNext(obj);
   };
 
-  onClickItemDay = item => {
+  onClickItemDay = (item) => {
     const { onClickDay, enableSelectDays } = this.props;
     const { month, year } = this.state;
 
@@ -145,7 +146,7 @@ class SimpleCalendar extends Component {
     return null;
   };
 
-  onChangeLayout = layout => {
+  onChangeLayout = (layout) => {
     this.setState({ layout });
   };
 
@@ -162,15 +163,20 @@ class SimpleCalendar extends Component {
       month: wkname,
       year: year,
       cntDays: days,
-      selects
+      selects,
     };
   };
 
   getWeekNamesOrCustom = () => {
     const { locale, weekNamesAbrv, customWeekNames } = this.props;
-    return customWeekNames.length === 7
-      ? customWeekNames
-      : getWeekNames(locale, weekNamesAbrv);
+
+    if (customWeekNames.length === 7) {
+      return customWeekNames;
+    } else if (customWeekNames.length > 0 && customWeekNames.length !== 7) {
+      console.warn(`failed customWeekNames: lenght is diference of (7) `);
+    }
+
+    return getWeekNames(locale, weekNamesAbrv);
   };
 
   render() {
@@ -206,7 +212,7 @@ class SimpleCalendar extends Component {
           <CalendarMonths
             locale={locale}
             month={month}
-            onChangeMonth={index => {
+            onChangeMonth={(index) => {
               this.setDaysOfMonth(index, year);
               this.setState({ layout: 1 });
             }}
@@ -214,12 +220,13 @@ class SimpleCalendar extends Component {
         ) : (
           <CalendarYears
             year={year}
-            onChangeYear={index => {
+            onChangeYear={(index) => {
               this.setDaysOfMonth(month, index);
               this.setState({ layout: 1 });
             }}
           />
         )}
+        <ClockDigital date={now} locale={locale} />
       </div>
     );
   }
@@ -235,7 +242,7 @@ SimpleCalendar.propTypes = {
   weekNamesAbrv: PropTypes.bool,
   onClickNext: PropTypes.func,
   onClickPrev: PropTypes.func,
-  onClickDay: PropTypes.func
+  onClickDay: PropTypes.func,
 };
 
 SimpleCalendar.defaultProps = {
@@ -243,12 +250,12 @@ SimpleCalendar.defaultProps = {
   locale: "pt",
   initDate: "",
   customWeekNames: [],
-  weekNamesAbrv: false,
+  weekNamesAbrv: true,
   enableSelectDays: false,
   enableSelectDateNow: true,
   onClickPrev: () => null,
   onClickNext: () => null,
-  onClickDay: () => null
+  onClickDay: () => null,
 };
 
 export default SimpleCalendar;

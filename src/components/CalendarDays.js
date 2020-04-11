@@ -1,7 +1,15 @@
 import React from "react";
 import "./CalendarDays.css";
 
-const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
+export default function CalendarDays({
+  days,
+  initDay,
+  maxDay,
+  weekNames,
+  onClickItemDay,
+}) {
+  let subtitles = [];
+
   return (
     <>
       <div className="week-names">
@@ -11,6 +19,10 @@ const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
       </div>
       <div className="week-days">
         {days.map((item, i) => {
+          if (item.subtitle) {
+            subtitles.push(item);
+          }
+
           let aux = i - initDay;
           let auxNext = aux >= maxDay ? aux - maxDay + 1 : "";
 
@@ -27,8 +39,8 @@ const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
                 "--bgColor": item.bgColor || "lightgrey",
                 "--fontColor": item.fontColor || "black",
                 "--iconColor": item.iconColor || "black",
-                "--fontSize": item.fontSize || "18px",
-                "--iconSize": item.iconSize || "18px"
+                "--fontSize": item.fontSize || "3.7vmin",
+                "--iconSize": item.iconSize || "18px",
               }}
               onClick={() => onClickItemDay(item)}
             >
@@ -38,8 +50,16 @@ const CalendarDays = ({ days, initDay, maxDay, weekNames, onClickItemDay }) => {
           );
         })}
       </div>
+      {subtitles.length > 0 ? (
+        <div className="subtitles">
+          {subtitles.map((s, i) => (
+            <div key={i.toString()}>
+              <div className="sub-icon">{s.icon}</div>
+              <div className="sub-text">{s.subtitle}</div>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </>
   );
-};
-
-export default CalendarDays;
+}

@@ -1,6 +1,6 @@
 .calendar-years {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 25% 25% 25% 25%;
   border-top: solid 1px lightgrey;
   border-left: solid 1px lightgrey;
 }
@@ -9,18 +9,18 @@
   padding: 5px;
   height: 90px;
 
-  border-bottom: solid 1px lightgrey;
-  border-right: solid 1px lightgrey;
+  border-bottom: solid 1px #e2dcdc;
+  border-right: solid 1px #e2dcdc;
 }
 
 .year:hover {
   background-color: lightgrey;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .year .name {
   text-align: center;
   margin-top: 40px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  cursor: pointer;
+  font-size: 5vmin;
 }

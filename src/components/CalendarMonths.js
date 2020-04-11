@@ -2,7 +2,7 @@ import React from "react";
 import { getMonthsNames, getMonthLenght } from "../utils/CalendarUtils";
 import "./CalendarMonths.css";
 
-const CalendarMonths = ({ locale, month, onChangeMonth }) => {
+export default function CalendarMonths({ locale, month, onChangeMonth }) {
   return (
     <div className="calendar-months">
       {getMonthsNames(locale).map((item, index) => (
@@ -19,6 +19,4 @@ const CalendarMonths = ({ locale, month, onChangeMonth }) => {
       ))}
     </div>
   );
-};
-
-export default CalendarMonths;
+}

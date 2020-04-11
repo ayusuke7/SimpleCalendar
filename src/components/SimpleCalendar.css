@@ -11,11 +11,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #02487e;
 }
 
 .header .title {
   display: flex;
-  font-size: 20px;
+  font-size: 4.5vmin;
   width: 100%;
   font-weight: bold;
   letter-spacing: 0.25px;
@@ -25,7 +26,7 @@
   margin-top: 5px;
   justify-content: center;
   cursor: pointer;
-  color: #003863;
+  color: white;
 }
 
 .header .title label:hover {
@@ -33,17 +34,14 @@
 }
 
 .header .btn-arrow {
-  padding: 6px 5px 3px 5px;
+  padding: 0px 5px 5px 5px;
   width: 20px;
   height: 20px;
-  border-radius: 50%;
-  box-shadow: 0px 3px 3px 3px #ccc;
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  color: #fff;
-  background-color: #003863;
+  color: white;
 }
 
 .disabled {

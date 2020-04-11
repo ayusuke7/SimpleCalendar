@@ -1,6 +1,14 @@
 var WEEK_NAMES = {
-  en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  pt: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
+  en: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+  pt: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
 };
 
 var MONTH_NAMES = [
@@ -15,14 +23,14 @@ var MONTH_NAMES = [
   { pt: "Setembro", en: "September" },
   { pt: "Outubro", en: "October" },
   { pt: "Novembro", en: "November" },
-  { pt: "Dezembro", en: "December" }
+  { pt: "Dezembro", en: "December" },
 ];
 
 var MONTH_LENGHT = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-export const getWeekNames = (locale = "en", abrv = false) => {
+export const getWeekNames = (locale = "en", abrv = true) => {
   if (Boolean(abrv)) {
-    return WEEK_NAMES[locale].map(i => i.charAt(0));
+    return WEEK_NAMES[locale].map((i) => i.substring(0, 3));
   }
 
   return WEEK_NAMES[locale];
@@ -34,7 +42,7 @@ export const getMonthName = (month = 0, locale = "en") => {
 };
 
 export const getMonthsNames = (locale = "en") => {
-  return MONTH_NAMES.map(m => m[locale]);
+  return MONTH_NAMES.map((m) => m[locale]);
 };
 
 export const getMonthLenght = (month, year) => {
@@ -42,22 +50,22 @@ export const getMonthLenght = (month, year) => {
   return MONTH_LENGHT[month] + isBix;
 };
 
-export const isYearBissexto = year => {
+export const isYearBissexto = (year) => {
   return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
 };
 
-export const validateTypeDate = date => {
+export const validateTypeDate = (date) => {
   const value = typeof date === "object" ? date.date : date;
   if (!Date.parse(value)) {
-    console.error(`SimpleCalendar: (${value}) inválid Date`);
+    console.error(`failed validateTypeDates: (${value}) inválid Date`);
     return null;
   }
   return date;
 };
 
-export const validateTypeDates = dates => {
+export const validateTypeDates = (dates) => {
   const validates = [];
-  dates.forEach(dt => {
+  dates.forEach((dt) => {
     const isDate = validateTypeDate(dt);
     if (isDate) {
       validates.push(isDate);
@@ -73,22 +81,32 @@ export const createPatternDate = (y, m, d) => {
   return pattern;
 };
 
-export const parseDateToString = date => {
+export const parseDateToString = (date) => {
   return date
-    ? createPatternDate(date.getFullYear(), date.getMonth(), date.getDate())
+    ? createPatternDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
     : "";
 };
 
-export const parseStringToDate = date => {
-  return date ? new Date(date) : new Date();
+export const parseStringToDate = (date) => {
+  return Date.parse(date) ? new Date(date) : new Date();
 };
 
 export const findDateObjOrStr = (arr, target) => {
-  return arr.findIndex(i => {
+  return arr.findIndex((i) => {
     if (typeof i === "object") {
       return target === i.date;
     } else {
       return target === i;
     }
   });
+};
+
+export const parseHourMinSec = (value) => {
+  return value < 10 ? `0${value}` : value;
+};
+
+export const parseDateToExtense = (date, locale) => {
+  const weekName = WEEK_NAMES[locale][date.getUTCDay()];
+  const monthName = MONTH_NAMES[date.getUTCMonth()][locale];
+  return `${weekName},${date.getUTCDate()} de ${monthName}`;
 };

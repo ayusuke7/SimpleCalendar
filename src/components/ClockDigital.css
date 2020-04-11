@@ -1,0 +1,25 @@
+.clock {
+  padding: 0px 10px;
+  background-color: #02487e;
+  color: white;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.digital {
+  font-size: 3.5vmin;
+}
+
+.arrow {
+  font-size: 16px;
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+
+.extense {
+  font-size: 3.5vmin;
+}
