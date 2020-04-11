@@ -180,7 +180,7 @@ class SimpleCalendar extends Component {
   };
 
   render() {
-    const { locale } = this.props;
+    const { locale, isClockTime } = this.props;
     const { days, layout, month, year, initDay, maxDay } = this.state;
 
     return (
@@ -226,7 +226,7 @@ class SimpleCalendar extends Component {
             }}
           />
         )}
-        <ClockDigital date={now} locale={locale} />
+        {isClockTime ? <ClockDigital date={now} locale={locale} /> : null}
       </div>
     );
   }
@@ -236,6 +236,7 @@ SimpleCalendar.propTypes = {
   dates: PropTypes.array,
   locale: PropTypes.string,
   initDate: PropTypes.string,
+  isClockTime: PropTypes.bool,
   enableSelectDays: PropTypes.bool,
   enableSelectDateNow: PropTypes.bool,
   customWeekNames: PropTypes.array,
@@ -249,6 +250,7 @@ SimpleCalendar.defaultProps = {
   dates: [],
   locale: "pt",
   initDate: "",
+  isClockTime: false,
   customWeekNames: [],
   weekNamesAbrv: true,
   enableSelectDays: false,

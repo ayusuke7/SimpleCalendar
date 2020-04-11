@@ -19,7 +19,7 @@ ReactDOM.render(
     //locale="en"
     //dates={dates()}
     //initDate={"2020-12-31"}
-    mode="digital"
+    isClockTime
     enableSelectDays
     enableSelectDateNow
     //weekNamesAbrv={false}
